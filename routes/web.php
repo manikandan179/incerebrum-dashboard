@@ -18,7 +18,7 @@ Route::get('/dashboard', function () {
         return redirect('/login')->with('error', 'Please login first');
     }
     return view('dashboard');
-})->name('dashboard');
+})->name('dashboard'); 
 
 // // candidate
 // Route::get('/candidate', [CandidateController::class, 'index']);

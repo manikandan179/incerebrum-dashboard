@@ -15,7 +15,7 @@ class CandidateController extends Controller
 
     public function getCandidates(Request $request)
     {
-        if ($request->ajax()) {
+        if ($request->ajax()) { 
             $data = CandidateModel::select(['id', 'name', 'email', 'phone', 'created_at']);
 
             return DataTables::of($data)

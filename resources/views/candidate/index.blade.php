@@ -16,7 +16,7 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Email</th>
+                                <th>Email</th> 
                                 <th>Phone</th>
                                 <th>Created At</th>
                                 <th>Action</th>
