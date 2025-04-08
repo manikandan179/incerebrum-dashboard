@@ -1,4 +1,4 @@
-@include('temp-parts.header');
+@include('temp-parts.header')
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -6,8 +6,8 @@
 
     <!-- Main content -->
     <section class="content">
-</section>
+    </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-   @include('temp-parts.footer'); 
+   @include('temp-parts.footer')
