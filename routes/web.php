@@ -18,7 +18,16 @@ Route::get('/dashboard', function () {
         return redirect('/login')->with('error', 'Please login first');
     }
     return view('dashboard');
-})->name('dashboard');
+})->name('dashboard'); 
 
-// candidate
-Route::get('/candidate', [CandidateController::class, 'index']);
+// // candidate
+// Route::get('/candidate', [CandidateController::class, 'index']);
+
+Route::get('/candidate', [CandidateController::class, 'index'])->name('candidates.index');
+Route::get('/get-candidates', [CandidateController::class, 'getCandidates'])->name('candidates.list');
+Route::delete('/candidates/{id}', [CandidateController::class, 'destroy'])->name('candidates.destroy');
+
+// Optional Edit & Create routes
+Route::get('/candidates/create', [CandidateController::class, 'create'])->name('candidates.create');
+Route::get('/candidates/{id}/edit', [CandidateController::class, 'edit'])->name('candidates.edit');
+
