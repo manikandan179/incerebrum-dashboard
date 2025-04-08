@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -75,7 +76,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{url('/upskills')}}" class="nav-link">
+            <a href="{{url('/upskill')}}" class="nav-link">
               <p>
                 upskills
               </p>
