@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\CandidateModel;
 
 class CandidateController extends Controller
 {
@@ -64,22 +65,44 @@ class CandidateController extends Controller
     // Show create form
     public function create()
     {
+       
         return view('candidate.create-edit');
     }
 
     // Store new candidate
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $validatedUser = $request->validate([
             'name'  => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'phone' => 'required|string|max:20',
         ]);
-
-        User::create($validated);
-
+        $validatedUser['password'] = bcrypt('123456');
+        $user = User::create($validatedUser);
+    
+        // Create candidate record
+        $candidateData = $request->only([
+            'dob',
+            'nationality',
+            'address',
+            'highest_qualification',
+            'institution_name',
+            'course_name',
+            'year_of_completion',
+            'certificates',
+            'preferred_start_date',
+            'specializations',
+            'work_experience',
+            'reason_for_joining',
+            'special_fequirements'
+        ]);
+        $candidateData['user_id'] = $user->id;
+    
+        \App\Models\CandidateModel::create($candidateData);
+    
         return redirect()->route('candidates.index')->with('success', 'Student created successfully.');
     }
+    
 
     // Show edit form (reusing same form)
     public function edit($id)
@@ -91,18 +114,44 @@ class CandidateController extends Controller
     // Update existing candidate
     public function update(Request $request, $id)
     {
-        $candidate = User::findOrFail($id);
-
-        $validated = $request->validate([
+        $user = User::findOrFail($id);
+    
+        // Validate User fields
+        $validatedUser = $request->validate([
             'name'  => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $candidate->id,
+            'email' => 'required|email|unique:users,email,' . $user->id,
             'phone' => 'required|string|max:20',
         ]);
-
-        $candidate->update($validated);
-
+    
+        // Update User
+        $user->update($validatedUser);
+    
+        // Update CandidateModel using user_id
+        $candidate = CandidateModel::where('user_id', $user->id)->first();
+    
+        if ($candidate) {
+            $candidateData = $request->only([
+                'dob',
+                'nationality',
+                'address',
+                'highest_qualification',
+                'institution_name',
+                'course_name',
+                'year_of_completion',
+                'certificates',
+                'preferred_start_date',
+                'specializations',
+                'work_experience',
+                'reason_for_joining',
+                'special_fequirements'
+            ]);
+    
+            $candidate->update($candidateData);
+        }
+    
         return redirect()->route('candidates.index')->with('success', 'Student updated successfully.');
     }
+    
 
     // Delete candidate (AJAX)
     public function destroy($id)

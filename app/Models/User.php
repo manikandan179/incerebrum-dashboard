@@ -20,6 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'password',
     ];
 
@@ -50,6 +51,6 @@ class User extends Authenticatable
     // Relationship: User has one Candidate
     public function candidate()
     {
-        return $this->hasOne(Candidate::class, 'userId');
+        return $this->hasOne(CandidateModel::class, 'user_id');
     }
 }
