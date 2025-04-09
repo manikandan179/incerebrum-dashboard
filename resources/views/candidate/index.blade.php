@@ -1,46 +1,57 @@
-@include('temp-parts.header');
+@include('temp-parts.header')
 
 <div class="content-wrapper">
-<section class="content">
-    <div class="container-fluid">
-        <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h3 class="card-title">Student List</h3>
-                <a href="{{ route('candidates.create') }}" class="btn btn-success btn-sm">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="d-flex my-3 justify-content-end">
+                <a href="{{url('candidates/create') }}" class="btn btn-success mr-3">
                     <i class="fas fa-plus"></i> Add Student
                 </a>
             </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table id="student_table" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th> 
-                                <th>Phone</th>
-                                <th>Created At</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Student List</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="candidate_table" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Created At</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 </div>
-
-<!-- Include DataTables Scripts -->
 <script src="{{ url('/') }}/assets/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="{{ url('/') }}/assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="{{ url('/') }}/assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="{{ url('/') }}/assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 
 <script>
-    $(function () {
-        $('#student_table').DataTable({
+    var Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+    });
+
+    //  DataTable init
+    $(document).ready(function () {
+        $('#candidate_table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{{ route("candidates.list") }}',
+            ajax: '{{ url("/get-candidates") }}',
             columns: [
                 { data: 'name' },
                 { data: 'email' },
@@ -51,15 +62,15 @@
         });
     });
 
+    // Delete student function
     function deleteCandidate(id) {
         Swal.fire({
             title: 'Are you sure?',
-            text: "This action is irreversible!",
+            text: "You will delete this student!",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel',
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
@@ -69,11 +80,17 @@
                         _token: '{{ csrf_token() }}'
                     },
                     success: function (response) {
-                        $('#student_table').DataTable().ajax.reload();
-                        Swal.fire('Deleted!', response.message, 'success');
+                        $('#candidate_table').DataTable().ajax.reload();
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Deleted successfully!'
+                        });
                     },
                     error: function () {
-                        Swal.fire('Error!', 'Something went wrong.', 'error');
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'Error deleting student.'
+                        });
                     }
                 });
             }
@@ -81,4 +98,4 @@
     }
 </script>
 
-@include('temp-parts.footer'); 
+@include('temp-parts.footer')
