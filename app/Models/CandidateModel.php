@@ -10,43 +10,35 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class CandidateModel extends Model
 {
     use HasFactory, SoftDeletes;
-
+   
     protected $table = 'candidate';
-
-    protected $primaryKey = 'id';
-
-    public $incrementing = true;
-
-    protected $keyType = 'int';
-
-    protected $dates = ['dateOfBirth', 'preferredStartDate', 'deletedAt'];
-
+    protected $casts = [
+        'dob' => 'date',
+        'preferred_start_date' => 'date',
+    ];
+    
     protected $fillable = [
-        'userId',
-        'dateOfBirth',
+        'user_id',
+        'dob',
         'nationality',
         'address',
-        'highestQualification',
-        'institutionName',
-        'courseName',
-        'yearOfCompletion',
+        'highest_qualification',
+        'institution_name',
+        'course_name',
+        'year_of_completion',
         'certificates',
-        'preferredStartDate',
+        'preferred_start_date',
         'specializations',
-        'workExperience',
-        'reasonForJoining',
-        'specialRequirements',
+        'work_experience',
+        'reason_for_joining',
+        'special_fequirements',
     ];
-
-    protected $casts = [
-        'dateOfBirth' => 'datetime',
-        'preferredStartDate' => 'datetime',
-        'yearOfCompletion' => 'integer',
-    ];
+    
 
     // Relationships
     public function user()
     {
-        return $this->belongsTo(User::class, 'userId');
+        return $this->belongsTo(User::class, 'user_id');
     }
+    
 }

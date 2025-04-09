@@ -43,7 +43,7 @@
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
-        timer: 3000
+        timer: 2000
     });
 
     //  DataTable init
@@ -60,6 +60,14 @@
                 { data: 'action', orderable: false, searchable: false }
             ]
         });
+        
+        // Show toast if success message is present in session
+        @if(session('success'))
+            Toast.fire({
+                icon: 'success',
+                title: '{{ session("success") }}'
+            });
+        @endif
     });
 
     // Delete student function
