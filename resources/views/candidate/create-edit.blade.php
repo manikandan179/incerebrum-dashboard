@@ -62,10 +62,16 @@
                                 required>
                         </div>
 
-                        <div class="form-group col-md-6 col-12">
-                            <label>Nationality<span class="text-danger">*</span></label>
-                            <input type="text" name="nationality" class="form-control"
-                                value="{{ old('nationality', optional($candidate->candidate ?? null)->nationality ?? '') }}" required>
+                         <div class="form-group col-md-6 col-12">
+                            <label>Nationality</label>
+                            @php
+                                $nationality = old('nationality', optional($candidate->candidate ?? null)->nationality ?? 'Indian');
+                            @endphp
+                            <select name="nationality" class="form-control" >
+                                <option value="">-- Select Nationality --</option>
+                                <option value="Indian" {{ $nationality === 'Indian' ? 'selected' : '' }}>Indian</option>
+                                <option value="Others" {{ $nationality === 'Others' ? 'selected' : '' }}>Others</option>
+                            </select>
                         </div>
 
                         <div class="form-group col-md-6 col-12">
