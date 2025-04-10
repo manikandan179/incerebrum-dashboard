@@ -22,7 +22,7 @@
 
             <div class="card">
                 <div class="card-body table-responsive">
-                        <table id="candidate_table" class="table table-bordered table-striped">
+                        <table id="candidate_table" class="table table-bordered table-striped w-100">
                             <thead>
                                 <tr>
                                     <th>Name</th>

@@ -14,4 +14,5 @@ class Upskill extends Model
     protected $fillable = [
         'name', 'email', 'phone', 'message',
     ];
+    
 }

@@ -14,16 +14,12 @@ Route::get('/', function () {
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-Route::get('/', function () {
-    if (!session()->has('user_id')) {
-        return redirect('/login')->with('error', 'Please login first');
-    }
-    return view('candidates');
-})->name('candidates'); 
+Route::post('/send-temp-password', [LoginController::class, 'sendTempPassword']);
 
 Route::get('/get-candidates', [CandidateController::class, 'getCandidates'])->name('candidates.data');
 Route::resource('candidates', CandidateController::class);
 
 Route::get('/upskill', [UpskillController::class, 'index']);
 Route::get('/get-upskills', [UpskillController::class, 'getUpskills'])->name('upskills.data');
+
 

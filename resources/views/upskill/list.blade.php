@@ -18,8 +18,8 @@
     <section class="content">
         <div class="container-fluid">
             <div class="card">
-                <div class="card-body">
-                    <table id="upskill_table" class="table table-bordered table-striped">
+                <div class="card-body table-responsive">
+                    <table id="upskill_table" class="table table-bordered table-striped w-100">
                         <thead>
                             <tr>
                                 <th>Name</th>
