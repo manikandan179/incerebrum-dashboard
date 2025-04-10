@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -23,10 +23,9 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        // Use User model instead of Login
-        $user = User::where(['email'=>$request->email,'password'=>$request-> password])->first();
+        $user = User::where('email', $request->email)->first();
 
-        if ($user) {
+       if ($user && Hash::check($request->password, $user->password)) {
             // Set session values
             Session::put('user_id', $user->id);
             Session::put('user_name', $user->name);
