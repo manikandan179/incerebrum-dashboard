@@ -18,8 +18,8 @@ Route::get('/', function () {
     if (!session()->has('user_id')) {
         return redirect('/login')->with('error', 'Please login first');
     }
-    return view('dashboard');
-})->name('dashboard'); 
+    return view('candidates');
+})->name('candidates'); 
 
 Route::get('/get-candidates', [CandidateController::class, 'getCandidates'])->name('candidates.data');
 Route::resource('candidates', CandidateController::class);

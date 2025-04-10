@@ -165,7 +165,7 @@
                 success: function(response) {
                     if (response.status === true) {
                         Toast.fire({ icon: 'success', title: response.message });
-                        window.location.href = "{{ url('/dashboard') }}";
+                        window.location.href = "{{ url('/candidates') }}";
                     } else {
                         Toast.fire({ icon: 'error', title: response.message });
                         $("#submit_btn").attr("disabled", false).text('Sign In');
