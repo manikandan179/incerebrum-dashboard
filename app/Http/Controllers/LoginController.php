@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use App\Mail\TempPasswordMail;
 
 class LoginController extends Controller
 {
@@ -40,6 +43,23 @@ class LoginController extends Controller
             'status' => false,
             'message' => 'Invalid email or password',
         ]);
+    }
+
+    public function sendTempPassword(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'Email not found.'], 404);
+        }
+
+        $tempPassword = mt_rand(100000, 999999);
+        $user->password = Hash::make($tempPassword);
+        $user->save();
+
+        Mail::to($user->email)->send(new TempPasswordMail($user, $tempPassword));
+
+        return response()->json(['message' => 'Temporary password sent to your email.']);
     }
 
     // Logout

@@ -130,7 +130,7 @@
                 <label>
                     <input type="checkbox" name="remember"> Remember Password
                 </label>
-                <a href="#">Forgot Password?</a>
+                <a href="#" onclick="handleForgotPassword()">Forgot Password?</a>
             </div>
 
             <button id="submit_btn" class="login-btn" type="submit">Sign In</button>
@@ -177,6 +177,30 @@
                 }
             });
         });
+
+        function handleForgotPassword() {
+    const email = prompt("Enter your registered email address:");
+    if (email) {
+        // Optionally, show a loading indicator here
+
+        fetch('/send-temp-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}' // if using Laravel
+            },
+            body: JSON.stringify({ email })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message || 'A temporary password has been sent to your email.');
+        })
+        .catch(error => {
+            alert('Something went wrong. Please try again later.');
+            console.error(error);
+        });
+    }
+}
     </script>
 
 </body>
