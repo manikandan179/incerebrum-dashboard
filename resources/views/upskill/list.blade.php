@@ -10,13 +10,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Upskills</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Upskills</li>
-            </ol>
+            <h1 class="m-0">Upskills </h1>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -24,9 +18,6 @@
     <section class="content">
         <div class="container-fluid">
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Upskill List</h3>
-                </div>
                 <div class="card-body">
                     <table id="upskill_table" class="table table-bordered table-striped">
                         <thead>
@@ -38,29 +29,33 @@
                                 <th>Created At</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @forelse ($upskills as $upskill)
-                                <tr>
-                                    <td>{{ $upskill->name }}</td>
-                                    <td>{{ $upskill->email }}</td>
-                                    <td>{{ $upskill->phone }}</td>
-                                    <td>{{ $upskill->message }}</td>
-                                    <td>{{ $upskill->created_at }}</td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="5" class="text-center">No records found</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </section>
 </div>
-<!-- jQuery -->
-<script src="{{url('/')}}/assets/plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="{{url('/')}}/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="{{ url('/') }}/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="{{ url('/') }}/assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="{{ url('/') }}/assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="{{ url('/') }}/assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+
+<script>
+    //  DataTable init
+    $(document).ready(function () {
+        $('#upskill_table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: '{{ url("/get-upskills") }}',
+            columns: [
+                { data: 'name' },
+                { data: 'email' },
+                { data: 'phone' },
+                { data: 'message' },
+                { data: 'created_at' },
+            ]
+        });
+    });
+
+</script>
 @include('temp-parts.footer')

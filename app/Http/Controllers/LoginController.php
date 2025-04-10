@@ -23,7 +23,7 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::where(['email'=> $request->email,'role'=>'ADMIN'])->first();
 
        if ($user && Hash::check($request->password, $user->password)) {
             // Set session values

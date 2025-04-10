@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\CandidateModel;
+use Illuminate\Support\Facades\Hash;
 
 class CandidateController extends Controller
 {
@@ -35,6 +36,7 @@ class CandidateController extends Controller
         $totalRecords = $query->count();
 
         $candidates = $query->orderBy('created_at', 'desc')
+                            ->where('role','STUDENT')
                             ->skip($start)
                             ->take($length)
                             ->get();
@@ -77,7 +79,7 @@ class CandidateController extends Controller
             'email' => 'required|email|unique:users,email',
             'phone' => 'required|string|max:20',
         ]);
-        $validatedUser['password'] = bcrypt('123456');
+        $validatedUser['password'] = Hash::make('123456');
         $user = User::create($validatedUser);
     
         // Create candidate record
