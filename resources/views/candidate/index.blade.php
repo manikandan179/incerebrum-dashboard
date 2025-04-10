@@ -1,20 +1,27 @@
 @include('temp-parts.header')
 
 <div class="content-wrapper">
-    <section class="content">
-        <div class="container-fluid">
-            <div class="d-flex my-3 justify-content-end">
-                <a href="{{url('candidates/create') }}" class="btn btn-success mr-3">
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Students</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <div class="d-flex justify-content-end">
+                <a href="{{url('candidates/create') }}" class="btn btn-primary mr-3">
                     <i class="fas fa-plus"></i> Add Student
                 </a>
             </div>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <section class="content">
+        <div class="container-fluid">
 
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Student List</h3>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
+                <div class="card-body table-responsive">
                         <table id="candidate_table" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
@@ -25,9 +32,7 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody></tbody>
                         </table>
-                    </div>
                 </div>
             </div>
         </div>
@@ -53,10 +58,10 @@
             serverSide: true,
             ajax: '{{ url("/get-candidates") }}',
             columns: [
-                { data: 'name' },
-                { data: 'email' },
-                { data: 'phone' },
-                { data: 'created_at' },
+                { data: 'name' , orderable: false},
+                { data: 'email' , orderable: false},
+                { data: 'phone' , orderable: false},
+                { data: 'created_at', orderable: false },
                 { data: 'action', orderable: false, searchable: false }
             ]
         });

@@ -25,5 +25,5 @@ Route::get('/get-candidates', [CandidateController::class, 'getCandidates'])->na
 Route::resource('candidates', CandidateController::class);
 
 Route::get('/upskill', [UpskillController::class, 'index']);
-Route::get('/upskill/list', [UpskillController::class, 'list'])->name('upskill.list');
+Route::get('/get-upskills', [UpskillController::class, 'getUpskills'])->name('upskills.data');
 
