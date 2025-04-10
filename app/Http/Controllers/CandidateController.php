@@ -33,7 +33,7 @@ class CandidateController extends Controller
             });
         }
 
-        $totalRecords = $query->count();
+        $totalRecords = $query->where('role','STUDENT')->count();
 
         $candidates = $query->orderBy('created_at', 'desc')
                             ->where('role','STUDENT')
@@ -75,12 +75,30 @@ class CandidateController extends Controller
     public function store(Request $request)
     {
         $validatedUser = $request->validate([
-            'name'  => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'phone' => 'required|string|max:20',
+            'name'                   => 'required|string|max:255',
+            'email'                  => 'required|email|unique:users,email',
+            'phone'                  => 'required|string|max:20',
+            'nationality'            => 'required|string|max:100',
+            'dob'                    => 'required|date',
+            'address'                => 'required|string|max:255',
+            'highest_qualification' => 'required|string|max:191',
+            'institution_name'       => 'required|string|max:191',
+            'course_name'            => 'required|string|max:191',
+            'certificates'           => 'required|string|max:191',
+            'preferred_start_date'   => 'required|date',
+            'year_of_completion'     => 'required|digits:4|integer',
+            'specializations'        => 'required|string|max:191',
+            'work_experience'        => 'required|string|max:191',
+            'reason_for_joining'     => 'required|string|max:191',
+            'special_fequirements'   => 'required|string|max:191',
         ]);
-        $validatedUser['password'] = Hash::make('123456');
-        $user = User::create($validatedUser);
+        $userData= $request->only([
+            'name',
+            'email',
+            'phone'
+        ]);
+        $userData['password'] = Hash::make('123456');
+        $user = User::create($userData);
     
         // Create candidate record
         $candidateData = $request->only([

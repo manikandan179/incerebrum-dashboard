@@ -1,4 +1,9 @@
-
+<?php
+    if (!session()->has('user_id')) {
+        echo "<script>window.location.href = '/login';</script>";
+        exit;
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,51 +54,51 @@
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
-    <!-- <ul class="navbar-nav">
+    <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="/candidates" class="nav-link">Home</a>
-      </li>  
-    </ul> -->
-
+    </ul>
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <!-- Notifications Dropdown Menu -->     
-      <li class="nav-item">
-        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-          <i class="fas fa-expand-arrows-alt"></i>
-        </a>
+      <li class="nav-item dropdown">
+          <a class="nav-link d-flex align-items-center text-dark" data-toggle="dropdown" href="#">
+                
+              <span class="mr-2">{{ session('user_name') }} </span>             
+              <img src="{{url('/')}}/assets/dist/img/avatar5.png" alt="User Image" class="rounded-circle" width="30" height="30">
+              
+          </a>     
+          <div class="dropdown-menu dropdown-menu-right"> 
+            <a class="nav-link" href="{{ route('logout') }}" class="nav-link"><i class="fas fa-sign-out-alt mr-2"></i> Logout</a>
+          </div>
       </li>
     </ul>
   </nav>
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar elevation-4">
+  <aside class="main-sidebar elevation-4  bg-white">
     <!-- Brand Logo -->
-    <div class="brand-link">
+    <div class="brand-link d-flex">
       <img src="{{url('/')}}/assets/dist/img/Logo.png" alt="AdminLTE Logo" class="brand-image">
-      <span class="brand-text font-weight-light text-white">&nbsp;</span>
     </div>
 
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar bg-white">
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
-            <a href="{{url('/candidates')}}" class="nav-link">
-              <p>
+            <a href="{{url('/candidates')}}" class="nav-link ">
+              <p class="{{ Request::is('candidates*') ? 'text-primary' : '' }}">
                 Students
               </p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{url('/upskill')}}" class="nav-link">
-              <p>
+            <a href="{{url('/upskill')}}" class="nav-link ">
+              <p class="{{ Request::is('upskill*') ? 'text-primary' : '' }}">
                 upskills
               </p>
             </a>
